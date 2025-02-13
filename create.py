@@ -27,14 +27,6 @@ def createImage(avoid, consider, file_name):
 
     try:
         path = os.path.join(cwd, "fonts/Lalezar-Regular.ttf")
-        header_font = ImageFont.truetype(path, 35)
-        print("text_font good")
-    except OSError:
-        text_font  = ImageFont.load_default()
-        print("no lalezer")
-
-    try:
-        path = os.path.join(cwd, "fonts/Lalezar-Regular.ttf")
         footer_font = ImageFont.truetype(path, 40)
         print("footer_font good")
     except OSError:
