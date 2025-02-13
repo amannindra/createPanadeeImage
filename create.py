@@ -22,7 +22,7 @@ def createImage(avoid, consider, file_name):
 
         print("header_font good")
     except OSError:
-        font = ImageFont.load_default()
+        text_font = ImageFont.load_default()
         print("using default font")
 
     try:
