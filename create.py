@@ -18,7 +18,7 @@ def createImage(avoid, consider, file_name):
     try: 
         path = os.path.join(cwd, "fonts/Roboto-VariableFont_wdth,wght.ttf")
 
-        text_font = ImageFont.truetype(path, 20)
+        text_font = ImageFont.truetype(path, 30)
 
         print("header_font good")
     except OSError:
@@ -72,11 +72,11 @@ def createImage(avoid, consider, file_name):
 
     image.show()
 
-    # image.save(file_name)
+    image.save(file_name)
 
-avoid_text = " Net income declined 36% YoY for Q3 despite 31% sales growth, due to 36% surge in SG&A. Operating margin contracted from 12% to 10%. Increased marketing spend & admin costs may not yield proportional profit gains."
+avoid_text = "Rising credit costs & expenses offset revenue growth, causing net income to decline 20% YoY to $509M. Net charge-off ratio rose to 8.12%. High provision for loan losses ($2.04B) signals increased credit risk in nonprime consumer lending."
 
-consider_text = "Net sales soared 31% YoY in Q3 to $355M, driven by 34% growth in retailer channels and 21% in e-commerce. Gross margin remained strong at 71%. Strong brand and effective execution in a competitive beauty market."
+consider_text = "Revenue up 9% to $4.99B, driven by 9% growth in net finance receivables to $23.6B. Strategic Foursight acquisition expands auto finance presence. Shareholder returns via dividends ($494M in 2024) and buybacks ($35M in 2024) continue."
 
 file_name = "avoidAndConsider.png"
 
