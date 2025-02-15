@@ -35,7 +35,7 @@ def createImage(avoid, consider, file_name):
 
     text_color = (28, 28, 28)
 
-    draw.rectangle([(0, 0), (width, 50)], fill="#288362")
+    draw.rectangle([(0, 0), (width, 5)], fill="#288362")
 
     logo_url = "https://www.panabee.com/images/logos/brandmark.svg"
     response = requests.get(logo_url)
@@ -44,7 +44,7 @@ def createImage(avoid, consider, file_name):
     logo = Image.open(BytesIO(png_data)).convert("RGBA").resize((60, 60))
 
     draw.text((80, 0), "Panabee", fill=text_color, font=footer_font)
-    image.paste(logo, (10,-5), logo)
+    image.paste(logo, (10,0), logo)
 
     avoid_text = "Avoid: " + avoid
     consider_text = "Consider: " + consider
@@ -53,19 +53,18 @@ def createImage(avoid, consider, file_name):
 
     lines = textwrap.wrap(avoid_text, width=max_width) 
 
-    avoid_y_position = 60
+    avoid_y_position = 70
     for line in lines:
-        draw.text((5, avoid_y_position), line, font=text_font, fill="black")
+        draw.text((20, avoid_y_position), line, font=text_font, fill="black")
         avoid_y_position += 45  
 
     lines = textwrap.wrap(consider_text, width=max_width) 
 
     consider_y_position = avoid_y_position + 20
     for line in lines:
-        draw.text((5, consider_y_position), line, font=text_font, fill="black")
+        draw.text((20, consider_y_position), line, font=text_font, fill="black")
         consider_y_position += 45
 
-    draw.rectangle([(0, height - 50), (width, height)], fill="#288362")
 
     website_text = "See link for full article: https://www.panabee.com/"
     
