@@ -25,7 +25,7 @@ html_content = """
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {
-    size: 900px 500px; 
+    size: 900px 500px; /* Adjust height as needed */
     margin: 0;
   }
     body {
@@ -48,10 +48,9 @@ html_content = """
       background: #288362;
     }
     .header {
-      padding: 5px 40px;
+      padding: 5px 30px;
       display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 10px;
       border-bottom: 1px solid rgba(40, 131, 98, 0.1);
     }
     .logo {
@@ -144,5 +143,5 @@ html_content = """
 </html>
 """
 
-output_path = "output.png"
+output_path = "output4.png"
 html_to_image(html_content, output_path)
