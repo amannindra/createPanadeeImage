@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {
-    size: 900px 490px; /* Adjust height as needed */
+    size: 900px 500px; /* Adjust height as needed */
     margin: 0;
   }
     body {
@@ -27,10 +28,11 @@
       background: #288362;
     }
     .header {
-      padding: 5px 30px;
+      padding-top: 5px;
+      padding-left: 30px;
+
       display: flex;
-      align-items: center;
-      gap: 100px;
+      align-items:center;
       border-bottom: 1px solid rgba(40, 131, 98, 0.1);
     }
     .logo {
@@ -40,8 +42,10 @@
       top: -2px;
     }
     .wordmark {
+      margin-left: 10px;
       color: rgba(28, 28, 28, 0.8);
       font-family: 'Lalezar', 'Inter', sans-serif;
+      height:fit-content;
       font-size: 28px;
     }
     .content {
@@ -106,15 +110,15 @@
       <div class="wordmark">Panabee</div>
     </div>
     <div class="content">
-      <div class="ticker">$FCX</div>
+      <div class="ticker">{ticker}</div>
       <div class="analysis-grid">
         <div class="analysis-section-horizontal">
           <h2>AVOID</h2>
-          <p class="analysis-content">FCX faces rising unit costs (<span class="stat">+8% YoY</span> to <span class="stat">$2.49/lb</span> copper) amid lower copper & moly production. New smelter fire adds risks & delays ramp-up. Grasberg's IUPK renewal post-2041 uncertain, limiting long-term value.</p>
+          <p class="analysis-content">{avoid}</p>
         </div>
         <div class="analysis-section-horizontal">
           <h2>CONSIDER</h2>
-          <p class="analysis-content">FCX's Grasberg underground output & leaching tech boost copper production. Gold output to ramp up w/ new PMR. Strong avg realized copper price (<span class="stat">$4.21/lb</span>, <span class="stat">+9% YoY</span>) & operating cash flow (<span class="stat">$7.2B</span>) signal value. Potential Bagdad expansion & IUPK extension offer upside.</p>
+          <p class="analysis-content">{consider}</p>
         </div>
       </div>
     </div>
