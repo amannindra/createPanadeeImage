@@ -11,7 +11,6 @@ def html_to_image(html_content: str, output_file: str):
         print("No pages found in PDF rendering. Check if HTML is empty or invalid.")
         return
 
-    # 3. For this example, we expect a single page — use the first image
     final_image = pil_images[0]
 
 
