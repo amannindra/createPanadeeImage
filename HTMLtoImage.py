@@ -156,12 +156,12 @@ def createCSS(ticker, avoid, consider):
   
   
   
-ticker = "MELI"  
+ticker = "ABT"  
   
 symbol = "$" + ticker
 
-avoid = "Growth deceleration in Argentina (+7.5% YoY revenue) amid hyperinflation (118%) raises concerns about real growth & FX risks. Increased competition & regulatory hurdles in fintech & e-commerce markets may pressure margins."
-consider = "MELI's revenue jumped 37.5% YoY to $20.8B, fueled by e-commerce & fintech leadership in Latin America. Strategic initiatives like MELI+ loyalty program & Mercado Play streaming enhance user engagement, creating a robust ecosystem."
+avoid = "Diagnostics sales dropped 6.5% as COVID test revenue plunged from $8.4B to $747M in 2 years. Infant formula NEC lawsuits present uncertain liability. Q4 tax benefit of $7.5B masks underlying challenges."
+consider = "Medical Devices sales surged 12% ex-FX, led by 20% CGM growth. Nutritional margins improved to 18%. Dividend up 7.3%. Ex-COVID, sales grew 9.6% ex-FX, signaling strong core business."
 output_path = ticker + ".png"
 
 html_to_image(createCSS(symbol,avoid, consider), output_path)
