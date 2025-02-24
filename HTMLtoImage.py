@@ -18,8 +18,7 @@ def html_to_image(html_content: str, output_file: str):
     final_image.save(output_file, 'PNG')
     print(f"Image saved to {output_file}")
 
-def avoidAndConsder(avoid, consider):
-  ticker = "$FCX"
+def avoidAndConsder(ticker,avoid, consider):
   html_content = f"""
 <!DOCTYPE html>
 <html>
@@ -27,7 +26,7 @@ def avoidAndConsder(avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 500px; /* Adjust height as needed */
+    size: 900px 470px; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -109,7 +108,7 @@ def avoidAndConsder(avoid, consider):
       opacity: 0.8;
     }}
     .analysis-content {{
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.6;
       margin: 0;
       color: rgba(28, 28, 28, 0.8);
@@ -146,25 +145,24 @@ def avoidAndConsder(avoid, consider):
 </html>
 """
   return html_content
-def createCSS(avoid, consider):
-    pattern = r'~?\$?\(?-?\d+(?:\.\d+)?\)?%?[MB]?'
-    
+def createCSS(ticker, avoid, consider):
+    pattern = r'[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?'
+
     new_avoid = re.sub(pattern, r'<span class="stat">\g<0></span>', avoid)
 
     new_consider = re.sub(pattern, r'<span class="stat">\g<0></span>', consider)
 
-    return avoidAndConsder(new_avoid, new_consider)
+    return avoidAndConsder(ticker,new_avoid, new_consider)
   
   
   
-avoid = "Revenue declined 12% YoY to $1.7B, net loss at $(147)M vs $9M profit last year. Customers, paid affiliates, & sales leaders all decreased. China & S. Korea saw steep declines. Direct selling & regulatory risks persist."
+ticker = "$" + "LYFT"
 
-consider = "Consider NUS for deep value: Market cap $348M, below tangible book value. Rhyz segment revenue grew 32%. Sale of Mavely for ~$211M net cash & equity may improve balance sheet. Digital transformation & new sales plan underway for future growth."
+avoid = "High competition from Uber, intense pricing pressure, and fluctuating market share. Insurance costs rising. Heavy reliance on AWS. Nascent ad business uncertain. Dual-class stock structure concentrates power."
+consider = "Achieved first annual net income & record cash flow in '24. 31% revenue growth. Adjusted EBITDA up 72%. Active riders & rides increased. Expanding EV initiatives & partnerships. Commitment to sustainability & brand loyalty."
+output_path = "LYFT.png"
 
-
-output_path = "output4.png"
-
-html_to_image(createCSS(avoid, consider), output_path)
+html_to_image(createCSS(ticker,avoid, consider), output_path)
 
    
 
