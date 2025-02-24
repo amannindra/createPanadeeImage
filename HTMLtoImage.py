@@ -156,13 +156,15 @@ def createCSS(ticker, avoid, consider):
   
   
   
-ticker = "$" + "LYFT"
+ticker = "MELI"  
+  
+symbol = "$" + ticker
 
-avoid = "High competition from Uber, intense pricing pressure, and fluctuating market share. Insurance costs rising. Heavy reliance on AWS. Nascent ad business uncertain. Dual-class stock structure concentrates power."
-consider = "Achieved first annual net income & record cash flow in '24. 31% revenue growth. Adjusted EBITDA up 72%. Active riders & rides increased. Expanding EV initiatives & partnerships. Commitment to sustainability & brand loyalty."
-output_path = "LYFT.png"
+avoid = "Growth deceleration in Argentina (+7.5% YoY revenue) amid hyperinflation (118%) raises concerns about real growth & FX risks. Increased competition & regulatory hurdles in fintech & e-commerce markets may pressure margins."
+consider = "MELI's revenue jumped 37.5% YoY to $20.8B, fueled by e-commerce & fintech leadership in Latin America. Strategic initiatives like MELI+ loyalty program & Mercado Play streaming enhance user engagement, creating a robust ecosystem."
+output_path = ticker + ".png"
 
-html_to_image(createCSS(ticker,avoid, consider), output_path)
+html_to_image(createCSS(symbol,avoid, consider), output_path)
 
    
 
