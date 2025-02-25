@@ -154,9 +154,7 @@ def createCSS(ticker, avoid, consider):
 
     return avoidAndConsder(ticker,new_avoid, new_consider)
   
-  
-  
-ticker = "ABT"  
+ticker = "ABT"
   
 symbol = "$" + ticker
 
