@@ -2,6 +2,7 @@ from weasyprint import HTML
 from pdf2image import convert_from_bytes
 from PIL import Image
 import re
+import os
 
 def html_to_image(html_content: str, output_file: str):
     
@@ -14,7 +15,7 @@ def html_to_image(html_content: str, output_file: str):
 
     final_image = pil_images[0]
 
-
+    output_file = os.path.join("Image", output_file)
     final_image.save(output_file, 'PNG')
     print(f"Image saved to {output_file}")
 
@@ -118,6 +119,9 @@ def avoidAndConsder(ticker,avoid, consider):
       color: #288362;
       font-weight: 500;
     }}
+    .titleSize{{
+      font-size: 
+    }}
   </style>
 </head>
 <body>
@@ -131,11 +135,11 @@ def avoidAndConsder(ticker,avoid, consider):
       <div class="ticker">{ticker}</div>
       <div class="analysis-grid">
         <div class="analysis-section-horizontal">
-          <h2>AVOID</h2>
+          <h2>BEAR</h2>
           <p class="analysis-content">{avoid}</p>
         </div>
         <div class="analysis-section-horizontal">
-          <h2>CONSIDER</h2>
+          <h2>BULL</h2>
           <p class="analysis-content">{consider}</p>
         </div>
       </div>
@@ -145,22 +149,37 @@ def avoidAndConsder(ticker,avoid, consider):
 </html>
 """
   return html_content
+import re
+
 def createCSS(ticker, avoid, consider):
-    pattern = r'[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?'
+    # This pattern has two main parts joined by '|':
+    #   1) Your original numeric pattern
+    #   2) A pattern to capture any parentheses that contain digits.
+    pattern = (
+        r'(?:'
+        r'#?:'
+        r'(?:[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?)(?:\s*-\s*[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?)?(?:\s*CAGR)?'
+        r')'
+        r'|\([^)]*\d+[^)]*\)'
+    )
 
     new_avoid = re.sub(pattern, r'<span class="stat">\g<0></span>', avoid)
-
     new_consider = re.sub(pattern, r'<span class="stat">\g<0></span>', consider)
 
-    return avoidAndConsder(ticker,new_avoid, new_consider)
-  
-ticker = "ABT"
-  
-symbol = "$" + ticker
+    return avoidAndConsder(ticker, new_avoid, new_consider)
 
-avoid = "Diagnostics sales dropped 6.5% as COVID test revenue plunged from $8.4B to $747M in 2 years. Infant formula NEC lawsuits present uncertain liability. Q4 tax benefit of $7.5B masks underlying challenges."
-consider = "Medical Devices sales surged 12% ex-FX, led by 20% CGM growth. Nutritional margins improved to 18%. Dividend up 7.3%. Ex-COVID, sales grew 9.6% ex-FX, signaling strong core business."
+
+company_name = "Progressive"
+
+ticker = "PGR"
+  
+symbol = "$" + ticker + "/" + company_name
+
+avoid = "Intense competition, cyclical insurance market, and potential for pricing pressure may squeeze margins. Catastrophe exposure and climate change uncertainty can lead to volatile earnings. Regulatory changes and cybersecurity risks add further complexity."
+
+consider = "Market leader in commercial auto & #2 in personal auto. Strong brand & focus on competitive pricing. Continuous product innovation (models 8.9 & R17) and Destination Era strategy to bundle offerings may drive growth. High employee retention (89%) indicates strong culture."
 output_path = ticker + ".png"
+
 
 html_to_image(createCSS(symbol,avoid, consider), output_path)
 
