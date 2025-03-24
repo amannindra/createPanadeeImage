@@ -27,7 +27,7 @@ def avoidAndConsder(ticker,avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 470px; /* Adjust height as needed */
+    size: 900px 490px; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -151,16 +151,25 @@ def avoidAndConsder(ticker,avoid, consider):
   return html_content
 import re
 
+import re
+
+import re
+
 def createCSS(ticker, avoid, consider):
-    # This pattern has two main parts joined by '|':
-    #   1) Your original numeric pattern
-    #   2) A pattern to capture any parentheses that contain digits.
+    # Modified pattern to also catch Q1, Q2, Q3, Q4 (or Q followed by any digit).
     pattern = (
-        r'(?:'
-        r'#?:'
-        r'(?:[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?)(?:\s*-\s*[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBK]?\+?%?)?(?:\s*CAGR)?'
+        r'(?:'                       # Non-capturing group for OR logic
+            # Match Q + digit(s)
+            r'Q\d+'
+        r'|'                         # OR
+            # Match numeric strings like $3.2M, 2G, 10-20, etc.
+            r'(?:[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?)'
+            r'(?:\s*-\s*[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?)?'
+            r'(?:\s*CAGR)?'
+        r'|'                         # OR
+            # Match parentheses containing digits
+            r'\([^)]*\d+[^)]*\)'
         r')'
-        r'|\([^)]*\d+[^)]*\)'
     )
 
     new_avoid = re.sub(pattern, r'<span class="stat">\g<0></span>', avoid)
@@ -168,19 +177,17 @@ def createCSS(ticker, avoid, consider):
 
     return avoidAndConsder(ticker, new_avoid, new_consider)
 
+company_name = "Snowflake"
 
-company_name = "Progressive"
+ticker = "SNOW"
 
-ticker = "PGR"
-  
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "Intense competition, cyclical insurance market, and potential for pricing pressure may squeeze margins. Catastrophe exposure and climate change uncertainty can lead to volatile earnings. Regulatory changes and cybersecurity risks add further complexity."
+avoid = "SNOW's FY25 net loss is alarming at $1.3B, despite 29% rev growth to $3.6B. Growth deceleration from 36% to 29% raises concerns. Consumption model visibility remains limited. High competition & customer cybersecurity incidents are major risks. Stock-based compensation at 41% of revenue is unsustainable."
 
-consider = "Market leader in commercial auto & #2 in personal auto. Strong brand & focus on competitive pricing. Continuous product innovation (models 8.9 & R17) and Destination Era strategy to bundle offerings may drive growth. High employee retention (89%) indicates strong culture."
+consider = "SNOW's FY25 rev grew 29% to $3.6B, driven by 126% net revenue retention & AI Data Cloud adoption. Customer base expanded to 11,159, including 745 of Forbes Global 2000. Free cash flow robust at $884M. Strategic investments in AI & global expansion position SNOW for long-term growth in a vast market."
+
 output_path = ticker + ".png"
-
-
 html_to_image(createCSS(symbol,avoid, consider), output_path)
 
    
