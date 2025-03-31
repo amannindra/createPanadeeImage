@@ -27,7 +27,7 @@ def avoidAndConsder(ticker,avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 490px; /* Adjust height as needed */
+    size: 900px 510px; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -149,46 +149,86 @@ def avoidAndConsder(ticker,avoid, consider):
 </html>
 """
   return html_content
-import re
 
-import re
-
-import re
+def highlight(match):
+    """
+    - group(1) = 'FY\d+' (skip highlighting)
+    - group(2) = everything else we do want to highlight:
+         Q\d+, or the numeric patterns, or parentheses with digits
+    """
+    if match.group(1):
+        # This is the 'FY\d+' match, so return it unaltered
+        return match.group(1)
+    else:
+        # This is group(2), which we do want to highlight
+        return f'<span class="stat">{match.group(2)}</span>'
 
 def createCSS(ticker, avoid, consider):
-    # Modified pattern to also catch Q1, Q2, Q3, Q4 (or Q followed by any digit).
-    pattern = (
-        r'(?:'                       # Non-capturing group for OR logic
-            # Match Q + digit(s)
-            r'Q\d+'
-        r'|'                         # OR
-            # Match numeric strings like $3.2M, 2G, 10-20, etc.
-            r'(?:[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?)'
-            r'(?:\s*-\s*[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?)?'
-            r'(?:\s*CAGR)?'
-        r'|'                         # OR
-            # Match parentheses containing digits
-            r'\([^)]*\d+[^)]*\)'
+    pattern = re.compile(
+        r'(FY\d+)'    # group(1): "FY24", "FY2023", etc. (skip highlight)
+        r'|'          # OR
+        r'(Q\d+'      # group(2): "Q4", "Q1", ...
+           r'|[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?'  
+           r'(?:\s*-\s*[~-]?\$?\(?\d+(?:\.\d+)?\)?[MBKG]?\+?%?)?' 
+           r'(?:\s*CAGR)?'
+           r'|\([^)]*\)'  # highlight *anything* inside parentheses
         r')'
     )
 
-    new_avoid = re.sub(pattern, r'<span class="stat">\g<0></span>', avoid)
-    new_consider = re.sub(pattern, r'<span class="stat">\g<0></span>', consider)
+    new_avoid = pattern.sub(highlight, avoid)
+    new_consider = pattern.sub(highlight, consider)
 
     return avoidAndConsder(ticker, new_avoid, new_consider)
+  
+  
+  
+def specificCSS(green, text):
+  for i in green:
+    start = -1 
+    for j in range(len(text) - len(i) + 1):
+      if text[j:j+len(i)] == i:
+        start = j
+        break
+    
+    if start != -1:
+        end = start + len(i) - 1 
+        text = text[:start] + '<span class="stat">' + i + '</span>' + text[end + 1:]
 
-company_name = "Snowflake"
-
-ticker = "SNOW"
+    else:
+        continue
+        
+        
+  
+  
+  return text
+  
+  
+company_name = "Ambarella"
+ticker = "AMBA"
 
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "SNOW's FY25 net loss is alarming at $1.3B, despite 29% rev growth to $3.6B. Growth deceleration from 36% to 29% raises concerns. Consumption model visibility remains limited. High competition & customer cybersecurity incidents are major risks. Stock-based compensation at 41% of revenue is unsustainable."
+avoid = "Customer concentration at 63% of rev via WT Micro exposes AMBA to distributor risk. Shift to auto/robotics markets is unproven against larger competitors in longer design cycles. Despite 26% FY25 rev growth, $127M operating loss and reliance on limited customer base raise concerns."
 
-consider = "SNOW's FY25 rev grew 29% to $3.6B, driven by 126% net revenue retention & AI Data Cloud adoption. Customer base expanded to 11,159, including 745 of Forbes Global 2000. Free cash flow robust at $884M. Strategic investments in AI & global expansion position SNOW for long-term growth in a vast market."
+consider = "AMBA's 26% FY25 revenue growth to $285M signals strong demand for AI SoCs. GenAI N1 SoC and CV3 for auto ADAS target high-growth markets. Gross margin steady at 60.5%. Shift to edge AI, radar fusion, and transformer networks positions AMBA for long-term value."
+
+cons_green = ["63%", "26%", "$127M"]
+cons = specificCSS(cons_green, avoid)
+
+avoid_green = ["26%", "$285M", "60.5%"]
+avod = specificCSS(avoid_green, consider)
+
 
 output_path = ticker + ".png"
-html_to_image(createCSS(symbol,avoid, consider), output_path)
+
+# html_to_image(createCSS(ticker, avoid, consider), output_path)
+
+html_to_image(avoidAndConsder(ticker,cons, avod), output_path)
+
+
+
+
+
 
    
 
