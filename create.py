@@ -27,7 +27,7 @@ def avoidAndConsder(ticker,avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 510px; /* Adjust height as needed */
+    size: 900px 540px; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -203,19 +203,23 @@ def specificCSS(green, text):
   return text
   
   
-company_name = "Oxford Industries"
-ticker = "OXM"
+company_name = "D.R. Horton"
+
+ticker = "DHI"
+  
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "OXM's FY24 sales fell 3.5% to $1.5B amid a tough retail climate & inflation, with gross margin down 0.5%. Tommy Bahama and Lilly Pulitzer operating income declined 27% and 30%, respectively, indicating brand vulnerability despite DTC focus. Increased SG&A and investments in distribution center & stores pressures near-term profitability. High inventory and promotional environment signal further margin risks."
+avoid = "Revenue (-9% YTD), net income (-22% YTD), & margins are falling due to slower demand & higher incentives. Cash is down $2B, net debt/capital is up significantly to 14.3%. Share buybacks are high ($2.4B in 6mo) despite worsening financials. Land option write-offs doubled. Segment weakness (Rental, Forestar) adds pressure."
 
-consider = "OXM is investing in DTC (81% of FY24 sales) & new distribution, aiming for long-term growth & efficiency. Emerging Brands sales rose 1.3%, showing portfolio potential. Johnny Was improved operating income by $96M YoY, recovering from impairment. Shareholder returns prioritized with consistent dividends & $50M recent buyback. Undervalued lifestyle brand portfolio in evolving retail."
+consider = "Still highly profitable ($1.7B net income YTD), strong market leader. Operating cash flow turned positive ($210.5M YTD vs use). Land strategy remains flexible (75% controlled lots). Balance sheet retains liquidity (revolvers). Massive share buybacks ($2.4B in 6mo) signal confidence/return capital despite cyclical downturn."
 
-cons_green = ["81%", "1.3%", "$96M", "$50M"]
+avoid_green = ["(-9% YTD)", "(-22% YTD)", "$2B", "14.3%", "($2.4B in 6mo)"]
+avod = specificCSS(avoid_green, avoid)
+
+cons_green = ["($1.7B net income YTD)", "($210.5M YTD vs use)", "(75% controlled lots)", "($2.4B in 6mo)"]
 cons = specificCSS(cons_green, consider)
 
-avoid_green = ["3.5%", "$1.5B", "0.5%", "27%", "30%"]
-avod = specificCSS(avoid_green, avoid)
+
 
 
 
@@ -223,7 +227,7 @@ output_path = ticker + ".png"
 
 # html_to_image(createCSS(ticker, avoid, consider), output_path)
 
-html_to_image(avoidAndConsder(ticker,cons, avod), output_path)
+html_to_image(avoidAndConsder(symbol,cons, avod), output_path)
 
 
 

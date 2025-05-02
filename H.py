@@ -27,7 +27,7 @@ def avoidAndConsder(ticker,avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 510px; /* Adjust height as needed */
+    size: 900px 470px; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -197,33 +197,33 @@ def specificCSS(green, text):
     else:
         continue
         
-        
-  
-  
   return text
   
-  
-company_name = "Ambarella"
-ticker = "AMBA"
 
+  
+company_name = "J.B. Hunt"
+
+ticker = "JBHT"
+  
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "Customer concentration at 63% of rev via WT Micro exposes AMBA to distributor risk. Shift to auto/robotics markets is unproven against larger competitors in longer design cycles. Despite 26% FY25 rev growth, $127M operating loss and reliance on limited customer base raise concerns."
+avoid = "Earnings down 8% Y/Y as key segments (JBI, DCS, FMS) see margin contraction despite some volume/productivity gains. Rising costs like insurance, wages, interest pressure profitability in a soft freight market. Capital intensity increasing via higher capex."
 
-consider = "AMBA's 26% FY25 revenue growth to $285M signals strong demand for AI SoCs. GenAI N1 SoC and CV3 for auto ADAS target high-growth markets. Gross margin steady at 60.5%. Shift to edge AI, radar fusion, and transformer networks positions AMBA for long-term value."
+consider = "Intermodal volumes growing (+8%), showing share gains. Brokerage loss narrowing significantly. Strong buybacks ($234M in Q1) signal confidence. Proactive debt restructuring improves maturity profile. Investing through cycle for future recovery."
 
-cons_green = ["63%", "26%", "$127M"]
-cons = specificCSS(cons_green, avoid)
+avoid_green = ["8%"]
+avod = specificCSS(avoid_green, avoid)
 
-avoid_green = ["26%", "$285M", "60.5%"]
-avod = specificCSS(avoid_green, consider)
+cons_green = ["(+8%)", "($234M in Q1)"]
+cons = specificCSS(cons_green, consider)
+
 
 
 output_path = ticker + ".png"
 
 # html_to_image(createCSS(ticker, avoid, consider), output_path)
 
-html_to_image(avoidAndConsder(ticker,cons, avod), output_path)
+html_to_image(avoidAndConsder(symbol,avod, cons), output_path)
 
 
 
