@@ -3,6 +3,7 @@ from pdf2image import convert_from_bytes
 from PIL import Image
 import re
 import os
+import math
 
 def html_to_image(html_content: str, output_file: str):
     
@@ -19,7 +20,7 @@ def html_to_image(html_content: str, output_file: str):
     final_image.save(output_file, 'PNG')
     print(f"Image saved to {output_file}")
 
-def avoidAndConsder(ticker,avoid, consider):
+def avoidAndConsder(ticker,avoid, consider, height):
   html_content = f"""
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,7 @@ def avoidAndConsder(ticker,avoid, consider):
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lalezar&display=swap" rel="stylesheet">
   <style>
   @page {{
-    size: 900px 470px; /* Adjust height as needed */
+    size: 900px {height}; /* Adjust height as needed */
     margin: 0;
   }}
     body {{
@@ -148,8 +149,12 @@ def avoidAndConsder(ticker,avoid, consider):
 </body>
 </html>
 """
+  min_container_height_value_from_css = 400 # Example, matching the default
+  html_content = html_content.replace(
+        f"min-height: {{min_container_height_value_from_css}}px;", # placeholder in my f-string
+        f"min-height: {min_container_height_value_from_css}px;"   # actual replacement
+  )
   return html_content
-
 def highlight(match):
     """
     - group(1) = 'FY\d+' (skip highlighting)
@@ -196,34 +201,96 @@ def specificCSS(green, text):
 
     else:
         continue
-        
   return text
-  
 
-  
-company_name = "J.B. Hunt"
+def card_height(avoid: str, consider: str,
+                base: int = 320,
+                chars_per_line: int = 40,
+                line_height: int = 22) -> int:
+    lines_avoid = math.ceil(len(avoid) / chars_per_line)
+    lines_cons  = math.ceil(len(consider) / chars_per_line)
+    return base + line_height * max(lines_avoid, lines_cons)
 
-ticker = "JBHT"
-  
+
+def calculate_image_height(
+    max_text_length: int,
+    base_height: float = 306.0,
+    chars_per_line: int = 40,
+    line_height_px: float = 22.4,
+    min_container_height: float = 400.0
+) -> float:
+    """
+    Calculates the optimal image height to fit text based on a predefined HTML/CSS structure.
+
+    The formula is: H = max(H_min_container, B + ceil(L_max / CPL) * H_L)
+
+    Args:
+        max_text_length: The maximum character length of the raw text in the
+                         dynamic content sections (e.g., BEAR or BULL).
+        base_height: The sum of all fixed vertical dimensions (heights, paddings,
+                     margins) of static elements in pixels. Default is 306.0px,
+                     based on the provided CSS analysis.
+        chars_per_line: Estimated characters that fit on a single line within
+                        the text content area. Default is 45.
+        line_height_px: The height of a single line of text in pixels.
+                        Default is 22.4px (14px font size * 1.6 line-height).
+        min_container_height: The minimum height of the main content container
+                              in pixels, as defined in CSS (`.container { min-height: ... }`).
+                              Default is 400.0px.
+
+    Returns:
+        The calculated optimal image height in pixels. This value can be a float.
+    """
+
+    if chars_per_line <= 0:
+        raise ValueError("Characters per line (chars_per_line) must be positive.")
+    if line_height_px <= 0:
+        raise ValueError("Line height (line_height_px) must be positive.")
+
+    # Calculate the number of lines needed for the longest text block
+    num_lines = math.ceil(max_text_length / chars_per_line)
+
+    # Calculate the height required by the content (fixed base + dynamic text height)
+    content_height = base_height + (num_lines * line_height_px)
+
+    # The final image height is the greater of the container's min_height or the calculated content_height
+    image_height = max(min_container_height, content_height)
+
+    return image_height
+
+
+
+company_name = "Palantir"
+ticker = "PLTR"
+
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "Earnings down 8% Y/Y as key segments (JBI, DCS, FMS) see margin contraction despite some volume/productivity gains. Rising costs like insurance, wages, interest pressure profitability in a soft freight market. Capital intensity increasing via higher capex."
+avoid = "Despite strong top-line growth,US commer by robusshowcasing broaslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platfd platformtop-line growth, gross margin slightlyt 71% growth in US commer by robust 71% growth in US commerontracted to 80%,top-line growth, gross margin slightly contracted to 80%,top-line growth, gross margin slightly contracted to 80%, and accounts receivable grew 26% Q/Q, outpacing revenue growth"
 
-consider = "Intermodal volumes growing (+8%), showing share gains. Brokerage loss narrowing significantly. Strong buybacks ($234M in Q1) signal confidence. Proactive debt restructuring improves maturity profile. Investing through cycle for future recovery."
+consider = "Revenue surgeop-line growth, gross margin slightlyshowcasing broad platfslightlyshowcasing broad slightlyshowcasing broad platfplatfslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platformtop-line growth, gross margin slightlygovernment segments, showcasing broad platformtop-line growth, gross margin slightly contracted to 80%, adoption"
 
-avoid_green = ["8%"]
+avoid_green = ["80%", "26%", "79% ($18.8M)"]
 avod = specificCSS(avoid_green, avoid)
 
-cons_green = ["(+8%)", "($234M in Q1)"]
+cons_green = ["39%", "71%", "45%", "22%", "117%", "$5.4B"]
 cons = specificCSS(cons_green, consider)
 
+height_px = card_height(avoid, consider)       
+
+
+print(len(avoid))
+print(len(consider))
+
+max_length = max(len(avoid), len(consider))
+
+calculated_page_height = calculate_image_height(max_length)
+
+
+print(f"Calculated optimal page height: {calculated_page_height}px")
 
 
 output_path = ticker + ".png"
-
-# html_to_image(createCSS(ticker, avoid, consider), output_path)
-
-html_to_image(avoidAndConsder(symbol,avod, cons), output_path)
+html_to_image(avoidAndConsder(symbol,avod, cons, f"{calculated_page_height}px"), output_path)
 
 
 
