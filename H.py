@@ -40,7 +40,7 @@ def avoidAndConsder(ticker,avoid, consider, height):
     }}
     .container {{
       width: 900px;
-      min-height: 400px;
+      min-height: [min_container_height_value_from_css]px;
       background: #FFFEF2;
       position: relative;
       padding-bottom: 40px;
@@ -150,10 +150,10 @@ def avoidAndConsder(ticker,avoid, consider, height):
 </html>
 """
   min_container_height_value_from_css = 400 # Example, matching the default
-  html_content = html_content.replace(
-        f"min-height: {{min_container_height_value_from_css}}px;", # placeholder in my f-string
-        f"min-height: {min_container_height_value_from_css}px;"   # actual replacement
-  )
+  # html_content = html_content.replace(
+  #       f"min-height: {[min_container_height_value_from_css]}px;", # placeholder in my f-string
+  #       f"min-height: {min_container_height_value_from_css}px;"   # actual replacement
+  # )
   return html_content
 def highlight(match):
     """
@@ -265,9 +265,9 @@ ticker = "PLTR"
 
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "Despite strong top-line growth,US commer by robusshowcasing broaslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platfd platformtop-line growth, gross margin slightlyt 71% growth in US commer by robust 71% growth in US commerontracted to 80%,top-line growth, gross margin slightly contracted to 80%,top-line growth, gross margin slightly contracted to 80%, and accounts receivable grew 26% Q/Q, outpacing revenue growth"
+avoid = "Despite strong top-line growth, gross margin slightly contracted to 80%, and accounts receivable grew 26% Q/Q, outpacing revenue growth, potentially signaling collection pressure or less favorable terms. Revenue from strategic commercial contracts declined significantly by 79% ($18.8M), indicating issues with this growth driver. The persistent multi-class share structure retains control with founders, limiting standard shareholder influence."
 
-consider = "Revenue surgeop-line growth, gross margin slightlyshowcasing broad platfslightlyshowcasing broad slightlyshowcasing broad platfplatfslightlyshowcasing broad platfslightlyshowcasing broad platfslightlyshowcasing broad platformtop-line growth, gross margin slightlygovernment segments, showcasing broad platformtop-line growth, gross margin slightly contracted to 80%, adoption"
+consider = "Revenue surged 39% Y/Y, driven by robust 71% growth in US commercial and 45% in government segments, showcasing broad platform adoption, particularly AIP. Operating leverage improved dramatically, with OpEx growth of 22% lagging revenue, boosting operating income 117%. Operating cash flow nearly tripled, demonstrating strong cash generation and balance sheet health with $5.4B cash/marketable securities."
 
 avoid_green = ["80%", "26%", "79% ($18.8M)"]
 avod = specificCSS(avoid_green, avoid)
@@ -275,19 +275,22 @@ avod = specificCSS(avoid_green, avoid)
 cons_green = ["39%", "71%", "45%", "22%", "117%", "$5.4B"]
 cons = specificCSS(cons_green, consider)
 
+
 height_px = card_height(avoid, consider)       
 
-
-print(len(avoid))
-print(len(consider))
+# print(len(avoid))
+# print(len(consider))
 
 max_length = max(len(avoid), len(consider))
 
 calculated_page_height = calculate_image_height(max_length)
 
-
 print(f"Calculated optimal page height: {calculated_page_height}px")
 
+
+calculated_page_height = 540
+
+print(f"Final page height set to: {calculated_page_height}px")
 
 output_path = ticker + ".png"
 html_to_image(avoidAndConsder(symbol,avod, cons, f"{calculated_page_height}px"), output_path)
