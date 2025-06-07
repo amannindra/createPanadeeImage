@@ -15,6 +15,9 @@ def html_to_image(html_content: str, output_file: str):
         return
 
     final_image = pil_images[0]
+    
+    if not os.path.exists("Image"):
+      os.makedirs("Image")
 
     output_file = os.path.join("Image", output_file)
     final_image.save(output_file, 'PNG')
@@ -260,20 +263,22 @@ def calculate_image_height(
 
 
 
-company_name = "Palantir"
-ticker = "PLTR"
+company_name = "Recursion Pharmaceuticals"
 
+ticker = "RXRX"
+  
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "Despite strong top-line growth, gross margin slightly contracted to 80%, and accounts receivable grew 26% Q/Q, outpacing revenue growth, potentially signaling collection pressure or less favorable terms. Revenue from strategic commercial contracts declined significantly by 79% ($18.8M), indicating issues with this growth driver. The persistent multi-class share structure retains control with founders, limiting standard shareholder influence."
+avoid = "RXRX burned $132M cash in Q1, up 29% Y/Y. Ending cash of $500.5M provides limited runway at this rate. Net loss doubled to $202.5M. Discontinued 3 clinical programs (REC-2282, REC-994, REC-3964) signaling R&D setbacks despite high platform spend. Integration risks from Exscientia acquisition evident in material weakness disclosure."
 
-consider = "Revenue surged 39% Y/Y, driven by robust 71% growth in US commercial and 45% in government segments, showcasing broad platform adoption, particularly AIP. Operating leverage improved dramatically, with OpEx growth of 22% lagging revenue, boosting operating income 117%. Operating cash flow nearly tripled, demonstrating strong cash generation and balance sheet health with $5.4B cash/marketable securities."
+consider = "RXRX validates TechBio model with Sanofi partnership milestone ($7M) and progress on Roche/Genentech collaborations, leveraging a massive 171TB dataset. Strategic reprioritization focuses spend on remaining high-potential pipeline assets (REC-4881, REC-617, etc.). Cash balance of $500.5M and $496M available on ATM provide near-term liquidity."
 
-avoid_green = ["80%", "26%", "79% ($18.8M)"]
+avoid_green = ["$132M", "29%", "$500.5M", "$202.5M"]
 avod = specificCSS(avoid_green, avoid)
 
-cons_green = ["39%", "71%", "45%", "22%", "117%", "$5.4B"]
+cons_green = ["($7M)", "171TB", "$500.5M", "$496M"]
 cons = specificCSS(cons_green, consider)
+
 
 
 height_px = card_height(avoid, consider)       
@@ -288,7 +293,7 @@ calculated_page_height = calculate_image_height(max_length)
 print(f"Calculated optimal page height: {calculated_page_height}px")
 
 
-calculated_page_height = 540
+calculated_page_height = 490
 
 print(f"Final page height set to: {calculated_page_height}px")
 
