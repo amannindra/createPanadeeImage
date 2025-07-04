@@ -263,21 +263,21 @@ def calculate_image_height(
 
 
 
-company_name = "Recursion Pharmaceuticals"
-
-ticker = "RXRX"
-  
+company_name = "Mastercard"
+ticker = "MA"
 symbol = "$" + ticker + "/" + company_name
 
-avoid = "RXRX burned $132M cash in Q1, up 29% Y/Y. Ending cash of $500.5M provides limited runway at this rate. Net loss doubled to $202.5M. Discontinued 3 clinical programs (REC-2282, REC-994, REC-3964) signaling R&D setbacks despite high platform spend. Integration risks from Exscientia acquisition evident in material weakness disclosure."
+avoid = "Core volume growth (GDV, cross-border, switched) decelerated vs. prior year. Higher tax rate (Pillar 2) pressures net income growth. Significant potential litigation liabilities remain contested (US opt-out trial Oct 2025, UK Commercial collective). Increased operating expenses, driven by strategic investments, outpace revenue growth on a reported basis, though adjusted margin expanded slightly."
 
-consider = "RXRX validates TechBio model with Sanofi partnership milestone ($7M) and progress on Roche/Genentech collaborations, leveraging a massive 171TB dataset. Strategic reprioritization focuses spend on remaining high-potential pipeline assets (REC-4881, REC-617, etc.). Cash balance of $500.5M and $496M available on ATM provide near-term liquidity."
+consider = "Robust currency-neutral net revenue growth (+17%), led by Value-Added Services (+18% cc incl. 4% acq.). Adjusted currency-neutral EPS grew strongly (+16%). Generated $2.4 billion in operating cash flow. Returned significant capital via $2.5 billion buybacks and $694 million dividends. Strategic investments and acquisitions are driving future growth areas."
 
-avoid_green = ["$132M", "29%", "$500.5M", "$202.5M"]
+avoid_green = ["(GDV, cross-border, switched)", "(US opt-out trial Oct 2025, UK Commercial collective)"]
 avod = specificCSS(avoid_green, avoid)
 
-cons_green = ["($7M)", "171TB", "$500.5M", "$496M"]
+cons_green = ["(+17%)", "(+18% cc incl. 4% acq.)", "(+16%)", "$2.4 billion", "$2.5 billion", "$694 million"]
 cons = specificCSS(cons_green, consider)
+
+
 
 
 
@@ -292,8 +292,7 @@ calculated_page_height = calculate_image_height(max_length)
 
 print(f"Calculated optimal page height: {calculated_page_height}px")
 
-
-calculated_page_height = 490
+calculated_page_height = 520
 
 print(f"Final page height set to: {calculated_page_height}px")
 
